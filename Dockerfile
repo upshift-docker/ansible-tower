@@ -45,6 +45,7 @@ COPY src/opt /opt
 # VOLUME /var/lib/awx/job_status
 
 EXPOSE 80/tcp
+EXPOSE 443/tcp
 
 WORKDIR /opt/tower-setup
 
