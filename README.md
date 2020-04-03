@@ -31,8 +31,8 @@ services:
     depends_on:
         - database
     ports:
-        - "8080:80"
-        - "8443:443"
+        - "80:80"
+        - "443:443"
     volumes:
         - tower_projects:/var/lib/awx/projects
     environment:
@@ -46,7 +46,7 @@ services:
         - "ANSIBLE_TOWER_CREATE_PRELOAD_DATA=yes"
 ```
 
-Then run all services `docker-compose up -d`. Wait until initialization is complete and go to http://localhost:8080/ to access the Tower web ui.
+Then run all services `docker-compose up -d`. Wait until initialization is complete and go to http://localhost/ to access the Tower web ui.
 
 ## Persistent data
 
