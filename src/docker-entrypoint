@@ -7,7 +7,13 @@ do
 	sed -i "s/^;*\s*${tmp_conf,,}=.*/${tmp_conf,,}='${!tmp_var}'/" /opt/tower-setup/inventory
 done
 
-# remove translations
+# disable https if behind reverse proxy
+if [[ "${ANSIBLE_TOWER_DISABLE_HTTPS:-no}" == "yes" ]]
+then
+	echo "nginx_disable_https='yes'" >>/opt/tower-setup/inventory
+fi
+
+# remove translations if requested
 if [[ "${ANSIBLE_TOWER_REMOVE_TRANSLATIONS:-no}" == "yes" ]]
 then
 	rm -f /var/lib/awx/venv/awx/lib/python3.6/site-packages/awx/ui/static/languages/*.json
