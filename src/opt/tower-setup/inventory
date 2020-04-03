@@ -1,0 +1,24 @@
+[tower]
+localhost ansible_connection=local
+
+[database]
+
+[all:vars]
+admin_username='admin'
+admin_password='redhat'
+admin_email='admin@example.com'
+
+pg_host='db'
+pg_port='5432'
+
+pg_database='tower'
+pg_username='tower'
+pg_password='tower'
+
+rabbitmq_username='tower'
+rabbitmq_password='tower'
+rabbitmq_cookie='cookiemonster'
+
+create_preload_data='no'
+
+cluster_host='localhost'

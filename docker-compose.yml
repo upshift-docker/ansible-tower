@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  tower_data:
+  tower_projects:
+
+services:
+
+  database:
+    image: postgres:10-alpine
+    volumes:
+      - tower_data:/var/lib/postgresql/data
+    environment:
+        - "POSTGRES_DB=tower"
+        - "POSTGRES_USER=tower"
+        - "POSTGRES_PASSWORD=tower"
+
+  server:
+    image: upshift/ansible-tower:latest
+    depends_on:
+        - database
+    ports:
+        - "8080:80"
+        - "8443:443"
+    volumes:
+        - tower_projects:/var/lib/awx/projects
+    environment:
+        - "ANSIBLE_TOWER_ADMIN_USERNAME=admin"
+        - "ANSIBLE_TOWER_ADMIN_PASSWORD=password"
+        - "ANSIBLE_TOWER_PG_HOST=database"
+        - "ANSIBLE_TOWER_PG_PORT=5432"
+        - "ANSIBLE_TOWER_PG_DATABASE=tower"
+        - "ANSIBLE_TOWER_PG_USERNAME=tower"
+        - "ANSIBLE_TOWER_PG_PASSWORD=tower"
+        - "ANSIBLE_TOWER_CREATE_PRELOAD_DATA=yes"

@@ -1,0 +1,48 @@
+---
+- name: If Ansible does not provide a system UUID, get a random one.
+  shell: "echo 'import uuid; print(uuid.uuid4())' | awx-python"
+  register: system_uuid
+  changed_when: False
+
+- name: Write a ha.conf file to /etc/tower that contains the system UUID.
+  template:
+    dest: /etc/tower/conf.d/ha.py
+    force: no
+    mode: '0640'
+    group: '{{ aw_group }}'
+    owner: root
+    src: ha.py
+
+- name: Start the rabbitmq service
+  command: /usr/sbin/rabbitmq-server -detached
+
+- name: wait for rabbitmq service to be running
+  wait_for:
+    port: "{{ rabbitmq_port }}"
+
+- name: Register the tower instance in the database.
+  shell: awx-manage provision_instance --hostname="{{ cluster_host }}"
+  args:
+    executable: /bin/bash
+  become_user: '{{ aw_user }}'
+  become: True
+  register: provision_instance
+  changed_when: "'changed: True' in provision_instance.stdout"
+
+- name: Register tower instance groups.
+  shell: awx-manage register_queue --queuename='tower' --hostnames='localhost'
+  args:
+    executable: /bin/bash
+  become_user: '{{ aw_user }}'
+  become: True
+  register: register_queue
+  changed_when: "'changed: True' in register_queue.stdout"
+
+- name: Create the default organization if it is needed.
+  shell: awx-manage create_preload_data
+  register: cdo
+  changed_when: "'added' in cdo.stdout"
+  when: create_preload_data|bool
+
+- name: Stop rabbitmq
+  command: /usr/sbin/rabbitmqctl stop

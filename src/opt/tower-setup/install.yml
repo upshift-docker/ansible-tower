@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+
+    - role: rabbitmq
+      tags: rabbitmq
+
+    - role: memcached
+      tags: memcached
+
+    - role: nginx
+      tags: nginx
+
+    - role: supervisor
+      tags: supervisor
+
+    - role: tower
+      tags: tower
+
+    - role: misc
+      tags: misc

@@ -1,0 +1,46 @@
+---
+- name: Create the self-signed cert
+  when: not nginx_disable_https|default(False)|bool
+  block:
+
+    - name: Create temporary directory for openssl config
+      tempfile:
+        state: directory
+        suffix: tower_openssl
+      register: tempfile_results
+
+    - name: copy openssl config
+      copy:
+        src: openssl.cnf
+        dest: "{{ tempfile_results.path }}/openssl.cnf"
+        group: '{{ aw_group }}'
+        owner: root
+        mode: 0600
+
+    - name: create self signed SSL certificates
+      command: openssl req -x509 -nodes -sha256 -days 824 -newkey rsa:2048 -keyout /etc/tower/tower.key -out /etc/tower/tower.cert -config {{ tempfile_results.path }}/openssl.cnf
+      args:
+        creates: /etc/tower/tower.cert
+
+    - name: set permissions on self-signed SSL certificate
+      file:
+        path: '{{ item }}'
+        group: '{{ aw_group }}'
+        follow: yes
+        mode: 0600
+        owner: root
+      with_items:
+      - /etc/tower/tower.cert
+      - /etc/tower/tower.key
+
+    - name: Remove the temporary openssl config directory and file
+      file:
+        path: "{{ tempfile_results.path }}"
+        state: absent
+
+- name: Install Tower nginx.conf
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root

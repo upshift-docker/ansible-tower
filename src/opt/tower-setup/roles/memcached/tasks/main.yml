@@ -1,0 +1,6 @@
+---
+- name: ensure {{ memcached_bind }} exists
+  file: path='{{ memcached_bind }}' state=directory mode=0750 owner='{{ memcached_user }}' group='{{ memcached_user }}'
+
+- name: add awx to the memcached group so it can access the socket
+  user: name=awx groups='{{ memcached_user }}' append=yes

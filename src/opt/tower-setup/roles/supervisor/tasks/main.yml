@@ -1,0 +1,6 @@
+---
+- name: install supervisor config
+  template:
+    src: 'tower.conf.j2'
+    dest: '/etc/supervisord.d/tower.ini'
+    force: yes

@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Determine the timestamp for the backup one for all nodes
+      set_fact:
+        now: '{{ lookup("pipe", "date +%F-%T") }}'
+
+- hosts: tower:instance_group_*
+  gather_facts: yes
+  tasks:
+    - include_role:
+        name: backup
+      vars:
+        now: "{{ hostvars['localhost']['now'] }}"
