@@ -130,6 +130,12 @@ Internal rabbitmq erlang cookie.
 
 Initialize database with sample data.
 
+### ANSIBLE_TOWER_DISABLE_HTTPS
+
+*Default value*: `no`
+
+Disable SSL configuration when Tower is behind a reverse proxy.
+
 ### ANSIBLE_TOWER_REMOVE_TRANSLATIONS
 
 *Default value*: `no`
