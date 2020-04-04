@@ -16,7 +16,8 @@ fi
 # remove translations if requested
 if [[ "${ANSIBLE_TOWER_REMOVE_TRANSLATIONS:-no}" == "yes" ]]
 then
-	rm -f /var/lib/awx/venv/awx/lib/python3.6/site-packages/awx/ui/static/languages/*.json
+	rm -f /var/lib/awx/venv/awx/lib/python3.6/site-packages/awx/ui/static/languages/{es,fr,ja,nl}.json
+	rm -fr /var/lib/awx/venv/awx/lib/python3.6/site-packages/awx/locale/{es,fr,ja,nl}
 fi
 
 # setup instance
