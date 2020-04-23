@@ -158,6 +158,8 @@
   become_user: '{{ aw_user }}'
   become: True
   no_log: True
+  register: result
+  changed_when: "'Superuser created successfully' in result.stdout"
   when: super_check.rc > 0
 
 - name: update django super user password
