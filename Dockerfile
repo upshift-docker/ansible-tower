@@ -18,7 +18,9 @@ ENV \
 	\
 	ANSIBLE_TOWER_RABBITMQ_USERNAME=tower \
 	ANSIBLE_TOWER_RABBITMQ_PASSWORD=tower \
-	ANSIBLE_TOWER_RABBITMQ_COOKIE=tower
+	ANSIBLE_TOWER_RABBITMQ_COOKIE=tower \
+	\
+	LANG=C
 
 # copy yum repos and gpg key
 COPY src/etc /etc
@@ -26,15 +28,13 @@ COPY src/etc /etc
 # install packages and dependencies
 RUN set -eux; \
 	\
-	ENV=C dnf install -y --nodocs \
+	dnf install -y --nodocs \
 		sudo \
 		ansible-$ANSIBLE_VERSION \
 		ansible-tower-$ANSIBLE_TOWER_VERSION \
-		# prevent glibc update while installing glibc-langpack-en
-		$(rpm -q glibc-minimal-langpack | sed s/minimal-langpack/langpack-en/); \
-	\
-	dnf clean all; \
-	\
+	; \
+	dnf clean all \
+	; \
 	true
 
 # copy management playbooks
