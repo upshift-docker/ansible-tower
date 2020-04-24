@@ -28,7 +28,7 @@ COPY src/etc /etc
 # install packages and dependencies
 RUN set -eux; \
 	\
-	ENV=C dnf install -y --nodocs \
+	dnf install -y --nodocs \
 		sudo \
 		ansible-$ANSIBLE_VERSION \
 		ansible-tower-$ANSIBLE_TOWER_VERSION \
