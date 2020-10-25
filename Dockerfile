@@ -37,14 +37,6 @@ RUN set -eux \
 COPY src/ansible-tower-setup.sh /etc/init.d/ansible-tower-setup.sh
 COPY src/ansible-tower-setup.service /etc/systemd/system/multi-user.target.wants/ansible-tower-setup.service
 
-# environment setup
-ENV ANSIBLE_TOWER_ADMIN_PASSWORD=redhat
-ENV ANSIBLE_TOWER_PG_HOST=
-ENV ANSIBLE_TOWER_PG_PORT=
-ENV ANSIBLE_TOWER_PG_DATABASE=tower
-ENV ANSIBLE_TOWER_PG_USERNAME=tower
-ENV ANSIBLE_TOWER_PG_PASSWORD=tower
-
 # volumes
 # VOLUME /var/log/tower
 # VOLUME /var/lib/awx/projects
