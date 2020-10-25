@@ -1,7 +1,0 @@
-NODENAME=rabbitmq@{{ rabbitmq_host }}
-if [ "${NODENAME%%.*}" != "${NODENAME}" ]; then
-    USE_LONGNAME=true
-else
-    USE_LONGNAME=false
-fi
-RABBITMQ_NODE_PORT={{ rabbitmq_port|default(5672) }}

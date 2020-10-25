@@ -28,22 +28,21 @@ services:
 
   server:
     image: upshift/ansible-tower:latest
+    privileged: true
     depends_on:
         - database
     ports:
-        - "80:80"
-        - "443:443"
+        - "8080:80"
+        - "8443:443"
     volumes:
         - tower_projects:/var/lib/awx/projects
     environment:
-        - "ANSIBLE_TOWER_ADMIN_USERNAME=admin"
         - "ANSIBLE_TOWER_ADMIN_PASSWORD=password"
         - "ANSIBLE_TOWER_PG_HOST=database"
         - "ANSIBLE_TOWER_PG_PORT=5432"
         - "ANSIBLE_TOWER_PG_DATABASE=tower"
         - "ANSIBLE_TOWER_PG_USERNAME=tower"
         - "ANSIBLE_TOWER_PG_PASSWORD=tower"
-        - "ANSIBLE_TOWER_CREATE_PRELOAD_DATA=yes"
 ```
 
 Then run all services `docker-compose up -d`. Wait until initialization is complete and go to http://localhost/ to access the Tower web ui.

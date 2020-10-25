@@ -1,8 +1,0 @@
-# Ansible Tower settings for django-channels
-BROKER_URL = 'amqp://{{ rabbitmq_username }}:{{ rabbitmq_password }}@localhost{%if rabbitmq_port is defined%}:{{ rabbitmq_port }}{%endif%}/{{ rabbitmq_vhost|default('tower') }}'
-
-CHANNEL_LAYERS = {
-    'default': {'BACKEND': 'asgi_amqp.AMQPChannelLayer',
-                'ROUTING': 'awx.main.routing.channel_routing',
-                'CONFIG': {'url': BROKER_URL}}
-}

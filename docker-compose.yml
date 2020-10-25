@@ -17,6 +17,7 @@ services:
 
   server:
     image: upshift/ansible-tower:latest
+    privileged: true
     depends_on:
         - database
     ports:
@@ -25,11 +26,9 @@ services:
     volumes:
         - tower_projects:/var/lib/awx/projects
     environment:
-        - "ANSIBLE_TOWER_ADMIN_USERNAME=admin"
         - "ANSIBLE_TOWER_ADMIN_PASSWORD=password"
         - "ANSIBLE_TOWER_PG_HOST=database"
         - "ANSIBLE_TOWER_PG_PORT=5432"
         - "ANSIBLE_TOWER_PG_DATABASE=tower"
         - "ANSIBLE_TOWER_PG_USERNAME=tower"
         - "ANSIBLE_TOWER_PG_PASSWORD=tower"
-        - "ANSIBLE_TOWER_CREATE_PRELOAD_DATA=yes"

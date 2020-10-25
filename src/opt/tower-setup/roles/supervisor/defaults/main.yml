@@ -1,3 +1,0 @@
----
-supervisor_awx_home: '/var/lib/awx'
-uwsgi_bash: "bash -c"
