@@ -16,7 +16,7 @@ services:
         - "POSTGRES_PASSWORD=tower"
 
   server:
-    image: upshift/ansible-tower:latest
+    image: upshift/ansible-tower:3.7.3
     privileged: true
     depends_on:
         - database

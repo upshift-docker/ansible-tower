@@ -40,3 +40,6 @@ fi
 
 # setup instance
 ./setup.sh
+
+# clean cache
+rm -rf /var/cache/yum
